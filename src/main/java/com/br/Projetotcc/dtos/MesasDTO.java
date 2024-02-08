@@ -13,10 +13,12 @@ import java.util.List;
 public class MesasDTO {
     private Long mesa;
     private List<Pedido> pedidos;
+    private Double valorAPagar;
 
     public MesasDTO(Mesas mesasDto) {
         mesa = mesasDto.getMesa();
         pedidos =  mesasDto.getPedidos();
+        valorAPagar = mesasDto.getValorAPagar();
     }
 
 }

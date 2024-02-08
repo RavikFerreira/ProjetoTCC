@@ -11,6 +11,7 @@ import com.br.Projetotcc.repository.PedidoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,9 +20,8 @@ import java.util.Optional;
 public class PedidoService {
 
     private final PedidoRepository pedidoRepository;
-    private final MesaService mesaService;
     private final MesasRepository mesasRepository;
-    private final PedidoService pedidoService;
+
 
     public List<Pedido> list(){
         return pedidoRepository.findAll();
@@ -35,19 +35,28 @@ public class PedidoService {
     public Pedido searchProduto(Long id){
         return pedidoRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
     }
-    public PedidoDTO addOrderInMesa(Long id, Pedido pedido) {
-    Mesas mesas = mesaService.search(id);
-//    if(mesas.getMesa() == id){
-//        Pedido produto = pedidoService.searchProduto(pedido.getId());
-//        if(pedidoService.searchProduto(pedido.getId())){
-//
-//        }
+    public PedidoDTO addOrderInMesa(Long mesa, Long id) {
+        Mesas mesas = mesasRepository.findById(mesa).orElseThrow(() -> new ResourceNotFoundException(mesa));
+        Pedido pedido = searchProduto(id);
+        double valor = mesas.getValorAPagar() + pedido.getPreco();
         mesas.addPedidos(pedido);
         mesasRepository.save(mesas);
         pedidoRepository.save(pedido);
         return new PedidoDTO(pedido);
+
     }
-//    return new PedidoDTO(pedido);
+
+    public Pedido editarPedidoNoCardapio(Long id, PedidoDTO pedido){
+        Long novoId = pedido.getId();
+        String novoNome = pedido.getNome();
+        double novoPreco = pedido.getPreco();
+        Pedido pedidos = searchProduto(id);
+        pedidos.setId(novoId);
+        pedidos.setNome(novoNome);
+        pedidos.setPreco(novoPreco);
+        pedidoRepository.save(pedidos);
+        return pedidos;
+    }
     
 
 }

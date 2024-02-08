@@ -29,6 +29,7 @@ public class MesaController {
 //    }
 
     @PostMapping("create")
+    @ResponseBody
     public ResponseEntity<MesasDTO> addOrderInMesa( @RequestBody Mesas mesas) throws ResourceNotFoundException {
         MesasDTO addMesas = mesaService.addOrder(mesas);
         return new ResponseEntity<>(addMesas, HttpStatus.CREATED);

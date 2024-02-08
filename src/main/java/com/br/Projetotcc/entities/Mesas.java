@@ -18,9 +18,12 @@ public class Mesas implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Pedido> pedidos = new ArrayList<>();
 
-    public Mesas(Long mesa, List<Pedido> pedidos) {
+    private Double valorAPagar = 0.0;
+
+    public Mesas(Long mesa, List<Pedido> pedidos, Double valorAPagar) {
         this.mesa = mesa;
         this.pedidos = pedidos;
+        this.valorAPagar = valorAPagar;
     }
     public Mesas(){}
     public Long getMesa() {
@@ -38,6 +41,13 @@ public class Mesas implements Serializable {
 
     public void addPedidos(Pedido addPedidos){
         pedidos.add(addPedidos);
+    }
+
+    public Double getValorAPagar() {
+        return valorAPagar;
+    }
+    public void setValorAPagar(Double valorAPagar) {
+        this.valorAPagar = valorAPagar;
     }
 
 }

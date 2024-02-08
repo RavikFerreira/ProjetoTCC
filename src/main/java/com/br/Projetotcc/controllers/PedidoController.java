@@ -1,7 +1,6 @@
 package com.br.Projetotcc.controllers;
 
 import com.br.Projetotcc.dtos.PedidoDTO;
-import com.br.Projetotcc.entities.Mesas;
 import com.br.Projetotcc.entities.Pedido;
 import com.br.Projetotcc.exceptions.ResourceNotFoundException;
 import com.br.Projetotcc.services.PedidoService;
@@ -19,7 +18,6 @@ public class PedidoController {
 
     private final PedidoService pedidoService;
 
-
     @GetMapping("cardapio")
     @ResponseBody
     public ResponseEntity<List<Pedido>> listPedidos(){
@@ -31,14 +29,20 @@ public class PedidoController {
         PedidoDTO pedidos = pedidoService.addAoCardapio(pedido);
         return new ResponseEntity<>(pedidos, HttpStatus.CREATED);
     }
-    @PostMapping("addOrderInMesa/{id}")
-    public ResponseEntity<PedidoDTO> addOrder(@PathVariable Long id, @RequestBody Pedido pedido) throws ResourceNotFoundException {
-        PedidoDTO pedidoDto = pedidoService.addOrderInMesa(id, pedido);
+    @PostMapping("addOrder/{id}/InMesa/{mesa}")
+    public ResponseEntity<PedidoDTO> addOrderInMesa(@PathVariable Long mesa, @PathVariable Long id) throws ResourceNotFoundException {
+        PedidoDTO pedidoDto = pedidoService.addOrderInMesa(mesa, id);
         return new ResponseEntity<>(pedidoDto, HttpStatus.CREATED);
     }
     @GetMapping("searchProduto/{id}")
     public ResponseEntity<Pedido> search(@PathVariable Long id){
         Pedido produto = pedidoService.searchProduto(id);
         return new ResponseEntity<>(produto, HttpStatus.OK);
+    }
+
+    @PatchMapping("editarPedidoCardapio/{id}")
+    public ResponseEntity<Pedido> editarPedidoNoCardapio(@PathVariable Long id, @RequestBody PedidoDTO pedido){
+        Pedido pedidos = pedidoService.editarPedidoNoCardapio(id, pedido);
+        return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 }

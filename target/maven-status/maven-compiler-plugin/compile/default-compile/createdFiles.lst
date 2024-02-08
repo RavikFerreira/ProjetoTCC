@@ -1,0 +1,12 @@
+com\br\Projetotcc\controllers\MesaController.class
+com\br\Projetotcc\repository\MesasRepository.class
+com\br\Projetotcc\exceptions\StandardError.class
+com\br\Projetotcc\services\MesaService.class
+com\br\Projetotcc\repository\PedidoRepository.class
+com\br\Projetotcc\exceptions\GlobalExceptionHandler.class
+com\br\Projetotcc\exceptions\ResourceNotFoundException.class
+com\br\Projetotcc\dtos\PedidoDTO.class
+com\br\Projetotcc\ProjetoTccApplication.class
+com\br\Projetotcc\entities\Mesas.class
+com\br\Projetotcc\entities\Pedido.class
+com\br\Projetotcc\dtos\MesasDTO.class

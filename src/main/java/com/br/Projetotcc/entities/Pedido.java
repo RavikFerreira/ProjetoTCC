@@ -17,6 +17,8 @@ public class Pedido implements Serializable {
     private Long id;
     private String nome;
     private Double preco;
+
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "mesas_id")
     @JsonIgnore
@@ -27,6 +29,7 @@ public class Pedido implements Serializable {
         this.nome = nome;
         this.preco = preco;
         this.mesas = mesas;
+
     }
     public Pedido() {}
 
