@@ -1,8 +1,6 @@
 package com.br.Projetotcc.services;
 
 import com.br.Projetotcc.dtos.MesasDTO;
-import com.br.Projetotcc.dtos.PedidoDTO;
-import com.br.Projetotcc.dtos.ReturnValorContaDto;
 import com.br.Projetotcc.entities.Mesas;
 import com.br.Projetotcc.entities.Pedido;
 import com.br.Projetotcc.exceptions.ResourceNotFoundException;
@@ -11,8 +9,8 @@ import com.br.Projetotcc.repository.PedidoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -34,7 +32,20 @@ public class MesaService {
     }
 
     public Mesas search(Long id){
-        return mesasRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Mesas mesa = mesasRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        List<Pedido> pedidos = new ArrayList<>();
+        double total = 0.0;
+        for(Pedido pedido : pedidos){
+            total += pedido.getPreco();
+            mesa.setConta(total);
+        }
+        return mesa;
     }
+
+//    public double calcularTotalDaConta(Mesas mesa) {
+//        List<Pedido> pedidos = pedidoRepository.findByMesas(mesa);
+//
+//        return pedidos;
+//    }
 
 }

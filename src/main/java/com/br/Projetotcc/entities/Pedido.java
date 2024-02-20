@@ -16,7 +16,7 @@ public class Pedido implements Serializable {
     @Id
     private Long id;
     private String nome;
-    private Double preco;
+    private double preco = 0.0;
 
 
     @ManyToOne(cascade = CascadeType.ALL)

@@ -40,4 +40,12 @@ public class MesaController {
         Mesas mesas = mesaService.search(id);
         return new ResponseEntity<>(mesas, HttpStatus.OK);
     }
+
+//    @GetMapping("/{id}/conta")
+//    public ResponseEntity<Double> calcularConta(@PathVariable Long id) {
+//        Mesas mesas = new Mesas();
+//        mesas.setMesa(id);
+//        double total = mesaService.calcularTotalDaConta(mesas);
+//        return ResponseEntity.ok(total);
+//    }
 }

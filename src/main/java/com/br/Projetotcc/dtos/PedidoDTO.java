@@ -15,7 +15,7 @@ import java.util.List;
 public class PedidoDTO {
     private Long id;
     private String nome;
-    private Double preco;
+    private double preco;
 
 
     public PedidoDTO(Pedido pedidos) {

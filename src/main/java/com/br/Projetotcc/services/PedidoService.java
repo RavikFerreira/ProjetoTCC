@@ -38,7 +38,6 @@ public class PedidoService {
     public PedidoDTO addOrderInMesa(Long mesa, Long id) {
         Mesas mesas = mesasRepository.findById(mesa).orElseThrow(() -> new ResourceNotFoundException(mesa));
         Pedido pedido = searchProduto(id);
-        double valor = mesas.getValorAPagar() + pedido.getPreco();
         mesas.addPedidos(pedido);
         mesasRepository.save(mesas);
         pedidoRepository.save(pedido);
@@ -57,6 +56,14 @@ public class PedidoService {
         pedidoRepository.save(pedidos);
         return pedidos;
     }
-    
+
+    public Pedido delete(Long id){
+        Pedido pedido = searchProduto(id);
+        if(pedido != null){
+            pedidoRepository.delete(pedido);
+        }
+        return pedido;
+    }
+
 
 }

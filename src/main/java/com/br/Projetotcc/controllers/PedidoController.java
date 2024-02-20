@@ -45,4 +45,10 @@ public class PedidoController {
         Pedido pedidos = pedidoService.editarPedidoNoCardapio(id, pedido);
         return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
+
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<Pedido> delete(@PathVariable Long id){
+        Pedido pedido = pedidoService.delete(id);
+        return new ResponseEntity<Pedido>(pedido, HttpStatus.OK);
+    }
 }
