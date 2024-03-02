@@ -1,8 +1,9 @@
 package com.br.Projetotcc.controllers;
 
 import com.br.Projetotcc.dtos.PedidoDTO;
+import com.br.Projetotcc.entities.Mesas;
 import com.br.Projetotcc.entities.Pedido;
-import com.br.Projetotcc.exceptions.ResourceNotFoundException;
+import com.br.Projetotcc.exceptions.*;
 import com.br.Projetotcc.services.PedidoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,14 +26,14 @@ public class PedidoController {
     }
 
     @PostMapping("addCardapio")
-    public ResponseEntity<PedidoDTO> addAoCardapio(@RequestBody Pedido pedido) {
+    public ResponseEntity<PedidoDTO> addAoCardapio(@RequestBody Pedido pedido) throws ItIsNotPossibleToAddAProductToTheMenuWithTheSameId {
         PedidoDTO pedidos = pedidoService.addAoCardapio(pedido);
         return new ResponseEntity<>(pedidos, HttpStatus.CREATED);
     }
     @PostMapping("addOrder/{id}/InMesa/{mesa}")
-    public ResponseEntity<PedidoDTO> addOrderInMesa(@PathVariable Long mesa, @PathVariable Long id) throws ResourceNotFoundException {
+    public ResponseEntity<PedidoDTO> addOrderInMesa(@PathVariable String mesa, @PathVariable Long id) throws PedidoResourceNotFoundException {
         PedidoDTO pedidoDto = pedidoService.addOrderInMesa(mesa, id);
-        return new ResponseEntity<>(pedidoDto, HttpStatus.CREATED);
+         return new ResponseEntity<>(pedidoDto, HttpStatus.CREATED);
     }
     @GetMapping("searchProduto/{id}")
     public ResponseEntity<Pedido> search(@PathVariable Long id){
@@ -41,14 +42,14 @@ public class PedidoController {
     }
 
     @PatchMapping("editarPedidoCardapio/{id}")
-    public ResponseEntity<Pedido> editarPedidoNoCardapio(@PathVariable Long id, @RequestBody PedidoDTO pedido){
+    public ResponseEntity<Pedido> editarPedidoNoCardapio(@PathVariable Long id, @RequestBody Pedido pedido) throws UnableToEditAnOrderFromATable {
         Pedido pedidos = pedidoService.editarPedidoNoCardapio(id, pedido);
         return new ResponseEntity<>(pedidos, HttpStatus.OK);
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<Pedido> delete(@PathVariable Long id){
-        Pedido pedido = pedidoService.delete(id);
-        return new ResponseEntity<Pedido>(pedido, HttpStatus.OK);
+    public ResponseEntity<Pedido> delete(@PathVariable Long id) throws UnableToDeleteAnOrderFromATable {
+        pedidoService.delete(id);
+        return new ResponseEntity<Pedido>(HttpStatus.OK);
     }
 }

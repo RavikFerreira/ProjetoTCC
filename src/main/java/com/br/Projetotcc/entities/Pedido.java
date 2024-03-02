@@ -1,35 +1,35 @@
 package com.br.Projetotcc.entities;
 
+import com.br.Projetotcc.entities.enums.Categorias;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
+@Table(name = "tb_pedido")
 public class Pedido implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
     private Long id;
     private String nome;
-    private double preco = 0.0;
-
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mesas_id")
+    private Double preco = 0.0;
+    @Enumerated(EnumType.STRING)
+    private Categorias categorias;
+    @ManyToOne()
+    @JoinColumn(name = "mesa_id")
     @JsonIgnore
-    private Mesas mesas ;
+    private Mesas mesas;
 
-    public Pedido(Long id, String nome, Double preco, Mesas mesas) {
+
+    public Pedido(Long id, String nome, Double preco, Mesas mesas, Categorias categorias) {
         this.id = id;
         this.nome = nome;
         this.preco = preco;
         this.mesas = mesas;
-
+        this.categorias = categorias;
     }
     public Pedido() {}
 
@@ -55,6 +55,14 @@ public class Pedido implements Serializable {
 
     public void setPreco(Double preco) {
         this.preco = preco;
+    }
+
+    public Categorias getCategorias() {
+        return categorias;
+    }
+
+    public void setCategorias(Categorias categorias) {
+        this.categorias = categorias;
     }
 
     public Mesas getMesas() {

@@ -2,7 +2,6 @@ package com.br.Projetotcc.exceptions;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
 
 public class StandardError implements Serializable {
     @Serial

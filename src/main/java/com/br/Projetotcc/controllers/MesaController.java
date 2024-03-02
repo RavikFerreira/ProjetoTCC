@@ -1,10 +1,10 @@
 package com.br.Projetotcc.controllers;
 
 import com.br.Projetotcc.dtos.MesasDTO;
-import com.br.Projetotcc.dtos.PedidoDTO;
 import com.br.Projetotcc.entities.Mesas;
-import com.br.Projetotcc.entities.Pedido;
-import com.br.Projetotcc.exceptions.ResourceNotFoundException;
+import com.br.Projetotcc.exceptions.CannotCreateATableWithTheSameId;
+import com.br.Projetotcc.exceptions.CannotDeleteABusyTable;
+import com.br.Projetotcc.exceptions.MesasResourceNotFoundException;
 import com.br.Projetotcc.services.MesaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("mesas/")
 public class MesaController {
     private final MesaService mesaService;
 
@@ -23,29 +24,23 @@ public class MesaController {
     public ResponseEntity<List<Mesas>> listPedidos(){
         return ResponseEntity.ok(mesaService.list());
     }
-//    @PostMapping("create")
-//    public ResponseEntity<MesasDTO> create(@RequestBody Mesas mesas){
-//        return ResponseEntity.ok(mesaService.create(mesas));
-//    }
 
     @PostMapping("create")
     @ResponseBody
-    public ResponseEntity<MesasDTO> addOrderInMesa( @RequestBody Mesas mesas) throws ResourceNotFoundException {
-        MesasDTO addMesas = mesaService.addOrder(mesas);
+    public ResponseEntity<MesasDTO> addOrder(@RequestBody Mesas mesas) throws MesasResourceNotFoundException, CannotCreateATableWithTheSameId {
+        MesasDTO addMesas = mesaService.addMesas(mesas);
         return new ResponseEntity<>(addMesas, HttpStatus.CREATED);
     }
 
-    @GetMapping("search/{id}")
-    public ResponseEntity<Mesas> search(@PathVariable Long id){
-        Mesas mesas = mesaService.search(id);
+    @GetMapping("search/{mesa}")
+    public ResponseEntity<Mesas> search(@PathVariable String mesa){
+        Mesas mesas = mesaService.search(mesa);
         return new ResponseEntity<>(mesas, HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}/conta")
-//    public ResponseEntity<Double> calcularConta(@PathVariable Long id) {
-//        Mesas mesas = new Mesas();
-//        mesas.setMesa(id);
-//        double total = mesaService.calcularTotalDaConta(mesas);
-//        return ResponseEntity.ok(total);
-//    }
+    @DeleteMapping("delete/{mesa}")
+    public ResponseEntity<Mesas> delete(@PathVariable String mesa) throws CannotDeleteABusyTable {
+        mesaService.delete(mesa);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
