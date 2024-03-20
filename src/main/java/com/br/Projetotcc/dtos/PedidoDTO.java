@@ -1,11 +1,8 @@
 package com.br.Projetotcc.dtos;
 
+import com.br.Projetotcc.entities.Cardapio;
 import com.br.Projetotcc.entities.Mesas;
 import com.br.Projetotcc.entities.Pedido;
-import com.br.Projetotcc.entities.enums.Categorias;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -15,15 +12,14 @@ import java.util.List;
 @NoArgsConstructor
 public class PedidoDTO {
     private Long id;
-    private String nome;
-    private double preco;
-    private Categorias categorias;
+    private Mesas mesas;
+    private List<Cardapio> cardapio;
 
 
     public PedidoDTO(Pedido pedidos) {
         id = pedidos.getId();
-        nome = pedidos.getNome();
-        preco = pedidos.getPreco();
-        categorias = pedidos.getCategorias();
+        mesas = pedidos.getMesas();
+        cardapio = pedidos.getCardapio();
+
     }
 }

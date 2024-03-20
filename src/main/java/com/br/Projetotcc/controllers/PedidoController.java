@@ -15,41 +15,21 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("pedido/")
 public class PedidoController {
 
     private final PedidoService pedidoService;
 
-    @GetMapping("cardapio")
+    @GetMapping("list")
     @ResponseBody
     public ResponseEntity<List<Pedido>> listPedidos(){
         return ResponseEntity.ok(pedidoService.list());
     }
 
-    @PostMapping("addCardapio")
-    public ResponseEntity<PedidoDTO> addAoCardapio(@RequestBody Pedido pedido) throws ItIsNotPossibleToAddAProductToTheMenuWithTheSameId {
-        PedidoDTO pedidos = pedidoService.addAoCardapio(pedido);
-        return new ResponseEntity<>(pedidos, HttpStatus.CREATED);
-    }
+
     @PostMapping("addOrder/{id}/InMesa/{mesa}")
-    public ResponseEntity<PedidoDTO> addOrderInMesa(@PathVariable String mesa, @PathVariable Long id) throws PedidoResourceNotFoundException {
-        PedidoDTO pedidoDto = pedidoService.addOrderInMesa(mesa, id);
+    public ResponseEntity<Pedido> addOrderInMesa(@PathVariable String mesa, @PathVariable Long id) throws PedidoResourceNotFoundException {
+        Pedido pedidoDto = pedidoService.addOrderInMesa(mesa, id);
          return new ResponseEntity<>(pedidoDto, HttpStatus.CREATED);
-    }
-    @GetMapping("searchProduto/{id}")
-    public ResponseEntity<Pedido> search(@PathVariable Long id){
-        Pedido produto = pedidoService.searchProduto(id);
-        return new ResponseEntity<>(produto, HttpStatus.OK);
-    }
-
-    @PatchMapping("editarPedidoCardapio/{id}")
-    public ResponseEntity<Pedido> editarPedidoNoCardapio(@PathVariable Long id, @RequestBody Pedido pedido) throws UnableToEditAnOrderFromATable {
-        Pedido pedidos = pedidoService.editarPedidoNoCardapio(id, pedido);
-        return new ResponseEntity<>(pedidos, HttpStatus.OK);
-    }
-
-    @DeleteMapping("delete/{id}")
-    public ResponseEntity<Pedido> delete(@PathVariable Long id) throws UnableToDeleteAnOrderFromATable {
-        pedidoService.delete(id);
-        return new ResponseEntity<Pedido>(HttpStatus.OK);
     }
 }

@@ -1,6 +1,7 @@
 package com.br.Projetotcc.services;
 
 import com.br.Projetotcc.dtos.MesasDTO;
+import com.br.Projetotcc.entities.Cardapio;
 import com.br.Projetotcc.entities.Mesas;
 import com.br.Projetotcc.entities.Pedido;
 import com.br.Projetotcc.entities.enums.Estado;
@@ -11,10 +12,13 @@ import com.br.Projetotcc.repository.MesasRepository;
 import com.br.Projetotcc.repository.PedidoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Service
@@ -30,10 +34,10 @@ public class MesaService {
         for(Mesas mesa: mesas){
             List<Pedido> pedidos = mesa.getPedidos();
             double total = 0.0;
-            for(Pedido pedido: pedidos){
-                total += pedido.getPreco();
-                mesa.setConta(total);
-            }
+//            for(Pedido pedido: pedidos){
+//                total += pedido.getTotal();
+//            }
+            mesa.setConta(total);
         }
         return mesas;
     }
@@ -42,7 +46,7 @@ public class MesaService {
         String mesa = mesas.getMesa();
         Optional<Mesas> mesaExiste = mesasRepository.findByMesas(mesa);
         if(mesaExiste.isPresent()){
-            throw new CannotCreateATableWithTheSameId(mesas.getId());
+            throw new CannotCreateATableWithTheSameId(mesas.getMesa());
         }
         mesas.setPedidos(mesas.getPedidos());
         mesas.setEstado(Estado.LIVRE);
@@ -56,9 +60,13 @@ public class MesaService {
         List<Pedido> pedidos = mesas.getPedidos();
         double total = 0.0;
         for(Pedido pedido : pedidos){
-            total += pedido.getPreco();
-            mesas.setConta(total);
+            List<Cardapio> cardapios = pedido.getCardapio();
+            for(Cardapio cardapio : cardapios){
+                total += cardapio.getPreco();
+            }
         }
+        mesas.setConta(total);
+
         return mesas;
     }
 
@@ -71,11 +79,5 @@ public class MesaService {
         }
         return mesas;
     }
-
-//    public double calcularTotalDaConta(Mesas mesa) {
-//        List<Pedido> pedidos = pedidoRepository.findByMesas(mesa);
-//
-//        return pedidos;
-//    }
 
 }

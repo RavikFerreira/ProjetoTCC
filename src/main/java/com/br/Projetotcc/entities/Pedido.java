@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_pedido")
@@ -13,23 +15,19 @@ public class Pedido implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String nome;
-    private Double preco = 0.0;
-    @Enumerated(EnumType.STRING)
-    private Categorias categorias;
     @ManyToOne()
     @JoinColumn(name = "mesa_id")
     @JsonIgnore
     private Mesas mesas;
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Cardapio> cardapio = new ArrayList<>();
 
-
-    public Pedido(Long id, String nome, Double preco, Mesas mesas, Categorias categorias) {
+    public Pedido(Long id,  Mesas mesas,  List<Cardapio> cardapio) {
         this.id = id;
-        this.nome = nome;
-        this.preco = preco;
         this.mesas = mesas;
-        this.categorias = categorias;
+        this.cardapio = cardapio;
     }
     public Pedido() {}
 
@@ -41,30 +39,6 @@ public class Pedido implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public Double getPreco() {
-        return preco;
-    }
-
-    public void setPreco(Double preco) {
-        this.preco = preco;
-    }
-
-    public Categorias getCategorias() {
-        return categorias;
-    }
-
-    public void setCategorias(Categorias categorias) {
-        this.categorias = categorias;
-    }
-
     public Mesas getMesas() {
         return mesas;
     }
@@ -73,5 +47,15 @@ public class Pedido implements Serializable {
         this.mesas = mesas;
     }
 
+    public  List<Cardapio> getCardapio() {
+        return cardapio;
+    }
 
+    public void setCardapio( List<Cardapio> cardapio) {
+        this.cardapio = cardapio;
+    }
+
+    public void addCardapioAoPedido(Cardapio addPedidos){
+        cardapio.add(addPedidos);
+    }
 }
