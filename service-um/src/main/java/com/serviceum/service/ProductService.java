@@ -1,7 +1,7 @@
-package com.order.service;
+package com.serviceum.service;
 
-import com.order.models.Product;
-import com.order.repository.ProductRepository;
+import com.serviceum.models.Product;
+import com.serviceum.repository.ProductRepository;
 import jakarta.inject.Inject;
 import jakarta.inject.Singleton;
 
@@ -13,11 +13,11 @@ public class ProductService {
     @Inject
     private ProductRepository productRepository;
 
-    public List<Product> findAll (){
+    public List<Product> productList(){
         return productRepository.findAll();
     }
-    
-    public Product addProduct (Product product){
+
+    public Product addProduct(Product product) {
         return productRepository.save(product);
     }
 

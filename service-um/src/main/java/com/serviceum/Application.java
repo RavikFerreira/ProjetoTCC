@@ -1,4 +1,4 @@
-package com.order;
+package com.serviceum;
 
 import io.micronaut.runtime.Micronaut;
 

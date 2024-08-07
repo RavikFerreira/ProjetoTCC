@@ -1,21 +1,21 @@
 version: "3"
 services:
 
-  mongodbtest:
+  mongo:
     image: mongo:latest
-    container_name: mongodbtest
+    container_name: mongo
     restart: always
     ports:
       - "27017:27017"
 
 
-  order-service:
-    build: './order-service'
-    container_name: order-service
+  service-um:
+    build: './service-um'
+    container_name: service-um
     depends_on:
-    - mongodbtest
+    - mongo
     environment:
-    - MONGODB_URI= mongodb://mongodbtest:27017/orders
+    - MONGODB_URI= mongodb://mongo:27017/orders-db
     ports:
-      - "8080:8080"
+      - "8083:8083"
 
